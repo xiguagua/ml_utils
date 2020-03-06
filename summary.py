@@ -10,9 +10,15 @@ def missing(df, excluding=None):
 
 def value_counts(df, fields, dropna=False, transpose=False):
     def print_f(f):
-        f_builder = df[f].value_counts(dropna=dropna).to_frame('Counts')
+        vc = df[f].value_counts
+        f_builder = pd.concat(
+            (
+                vc(dropna=dropna).rename('Count'),
+                vc(dropna=dropna, normalize=True).round(3).rename('%'),
+            ),
+            axis='columns',
+        )
         f_builder = f_builder.rename_axis(f)
-        f_builder['Rate'] = df[f].value_counts(dropna=dropna, normalize=True).round(3)
         return f_builder.transpose() if transpose else f_builder
 
     if type(fields) == type(''):
