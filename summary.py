@@ -6,7 +6,8 @@ def missing(df, excluding=None):
     total = df.isnull().sum().sort_values(ascending=False)
     percent_1 = df.isnull().sum()/df.isnull().count()
     percent_2 = (round(percent_1, 3)).sort_values(ascending=False)
-    return pd.concat([total, percent_2], axis=1, keys=['Total', '%'])
+    return pd.concat([total, percent_2], axis=1, keys=['Total', '%'], sort=False)\
+        .sort_values(by='Total', ascending=False)
 
 def value_counts(df, fields, dropna=False, transpose=False):
     def print_f(f):
