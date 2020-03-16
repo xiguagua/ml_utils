@@ -5,7 +5,7 @@ def missing(df, excluding=None):
     df = df if not excluding else df[df.columns[~df.columns.isin(excluding)]]
     total = df.isnull().sum().sort_values(ascending=False)
     percent_1 = df.isnull().sum()/df.isnull().count()
-    percent_2 = (round(percent_1, 1)).sort_values(ascending=False)
+    percent_2 = (round(percent_1, 3)).sort_values(ascending=False)
     return pd.concat([total, percent_2], axis=1, keys=['Total', '%'])
 
 def value_counts(df, fields, dropna=False, transpose=False):
